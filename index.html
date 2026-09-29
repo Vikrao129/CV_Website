@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vikram Rao — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F4EE;
+    --ink: #1C1B19;
+    --ink-soft: #57534C;
+    --line: #DCD6C8;
+    --accent: #7A2E2E;
+    --bubble: #EFE9DA;
+    --paper-dark: #17140F;
+    --ink-dark: #EDE7DA;
+    --ink-soft-dark: #B4AB98;
+    --line-dark: #3A342A;
+    --accent-dark: #C8746E;
+    --bubble-dark: #241F17;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  *, *::before, *::after { box-sizing: inherit; }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: var(--paper-dark); --ink: var(--ink-dark); --ink-soft: var(--ink-soft-dark);
+      --line: var(--line-dark); --accent: var(--accent-dark); --bubble: var(--bubble-dark);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: var(--paper-dark); --ink: var(--ink-dark); --ink-soft: var(--ink-soft-dark);
+    --line: var(--line-dark); --accent: var(--accent-dark); --bubble: var(--bubble-dark);
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 500; margin: 0; }
+
+  .top {
+    padding: 56px 28px 8px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .top h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); }
+  .top p { color: var(--ink-soft); margin-top: 10px; max-width: 46ch; }
+
+  nav.jump {
+    max-width: 900px;
+    margin: 18px auto 0;
+    padding: 0 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+  }
+  nav.jump a {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  nav.jump a:hover { color: var(--accent); border-color: var(--accent); }
+
+  main { max-width: 900px; margin: 0 auto; padding: 0 28px 80px; }
+
+  section.group {
+    padding: 48px 0 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  section.group:last-of-type { border-bottom: none; }
+  section.group h2 { font-size: 1.5rem; }
+  section.group .blurb { color: var(--ink-soft); margin: 6px 0 0; font-size: 0.95rem; max-width: 52ch; }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 22px 26px;
+    padding: 34px 0 44px;
+  }
+  .row .bubble:nth-child(even) { margin-top: 26px; }
+  .row .bubble:nth-child(3n) { margin-top: -10px; }
+
+  .bubble {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 50%;
+    background: var(--bubble);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    padding: 14px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    font-size: 0.95rem;
+    line-height: 1.25;
+    color: inherit;
+    font-family: inherit;
+  }
+  .bubble span { pointer-events: none; }
+  .bubble small { display: block; color: var(--ink-soft); font-size: 0.8rem; margin-top: 4px; }
+  .bubble:hover, .bubble:focus-visible {
+    transform: scale(1.08);
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    z-index: 5;
+  }
+  .bubble:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .bubble.active { border-color: var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.14); }
+
+  .lg { width: 210px; height: 210px; }
+  .md { width: 165px; height: 165px; }
+  .sm { width: 135px; height: 135px; font-size: 0.88rem; }
+
+  .subhead {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    margin: 30px 0 0;
+  }
+  .subhead + .row { padding-top: 18px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bubble { transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  @media (max-width: 640px) {
+    main { padding: 0 20px 60px; }
+    .top, nav.jump { padding-left: 20px; padding-right: 20px; }
+    .row { flex-direction: column; align-items: stretch; gap: 14px; }
+    .row .bubble { margin-top: 0 !important; width: 100%; height: 100px; border-radius: 24px; }
+  }
+
+  .panel-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 18, 14, 0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 10;
+  }
+  .panel-backdrop.open { opacity: 1; pointer-events: auto; }
+
+  .panel {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: min(420px, 100%);
+    background: var(--paper);
+    border-left: 1px solid var(--line);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 11;
+    padding: calc(32px + env(safe-area-inset-top, 0px)) 30px 30px;
+    overflow-y: auto;
+  }
+  .panel.open { transform: translateX(0); }
+
+  .panel .close {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-bottom: 24px;
+  }
+  .panel .close:hover { border-color: var(--accent); color: var(--accent); }
+
+  .panel .when { color: var(--ink-soft); font-size: 0.9rem; margin-top: 4px; }
+  .panel h2 { font-size: 1.5rem; margin-top: 18px; }
+  .panel .sub { color: var(--ink-soft); margin-top: 4px; }
+  .panel ul { margin: 18px 0 0; padding-left: 20px; }
+  .panel li { margin-bottom: 10px; }
+  .placeholder { color: var(--accent); font-style: italic; }
+
+  .panel .play-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 18px;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  .panel .play-link:hover { background: var(--accent); color: var(--paper); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel, .panel-backdrop { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <h1>Vikram Rao</h1>
+  <p>Finance and operations student with a background in business strategy, and a goal of working in the games industry. Click any bubble for the details.</p>
+</div>
+
+<nav class="jump" aria-label="Sections">
+  <a href="#business">Finance &amp; Business</a>
+  <a href="#school">School</a>
+  <a href="#games">Video Games</a>
+  <a href="#projects">Projects</a>
+</nav>
+
+<main>
+
+  <section class="group" id="business">
+    <h2>Finance &amp; Business</h2>
+    <p class="blurb">Internships and work experience.</p>
+    <div class="row">
+      <button class="bubble lg" data-id="capcom"><span>Capcom<small>Finance Intern</small></span></button>
+      <button class="bubble md" data-id="sidequest"><span>SideQuest<small>Business Strategy Intern</small></span></button>
+      <button class="bubble sm" data-id="vitamin"><span>The Vitamin Shoppe<small>Sales Lead, Store Manager</small></span></button>
+      <button class="bubble md" data-id="liontrades"><span>LionTrades<small>Software Engineering Intern</small></span></button>
+    </div>
+  </section>
+
+  <section class="group" id="school">
+    <h2>School</h2>
+    <p class="blurb">Education, teams, and clubs at Ohio State.</p>
+    <div class="row">
+      <button class="bubble lg" data-id="education"><span>Education<small>Ohio State</small></span></button>
+      <button class="bubble md" data-id="gymnastics"><span>OSU Men's Gymnastics<small>Treasurer</small></span></button>
+      <button class="bubble md" data-id="ufa"><span>Finance Association<small>Member</small></span></button>
+    </div>
+  </section>
+
+  <section class="group" id="games">
+    <h2>Video Games</h2>
+    <p class="blurb">Where I'm headed, especially the fighting game community.</p>
+    <div class="row">
+      <button class="bubble lg" data-id="fgc"><span>Gaming &amp; the FGC<small>Building toward the industry</small></span></button>
+    </div>
+  </section>
+
+  <section class="group" id="projects">
+    <h2>Projects</h2>
+    <p class="blurb">Things I've built, split by area.</p>
+
+    <h3 class="subhead">Video Game Projects</h3>
+    <div class="row">
+      <button class="bubble lg" data-id="fighter"><span>Simple Fighter<small>Godot, playable</small></span></button>
+    </div>
+
+    <h3 class="subhead">School Projects: Finance &amp; Operations</h3>
+    <div class="row">
+      <button class="bubble md" data-id="profit"><span>Profitability Analysis<small>Pivot tables</small></span></button>
+      <button class="bubble md" data-id="forecast"><span>Sales Forecasting<small>Regression</small></span></button>
+      <button class="bubble md" data-id="capital"><span>Capital Budgeting<small>Solver</small></span></button>
+    </div>
+  </section>
+
+</main>
+
+<div class="panel-backdrop" id="backdrop"></div>
+<aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panel-title">
+  <button class="close" id="closeBtn" aria-label="Close">✕</button>
+  <div class="when" id="panel-when"></div>
+  <h2 id="panel-title"></h2>
+  <div class="sub" id="panel-sub"></div>
+  <ul id="panel-list"></ul>
+  <a class="play-link" id="panel-link" href="#" target="_blank" rel="noopener" style="display:none;"></a>
+</aside>
+
+<script>
+  const data = {
+    capcom: {
+      when: "June 2026 to August 2026",
+      title: "Capcom",
+      sub: "Finance Intern",
+      points: [
+        "Analyzed financial data and business performance metrics to support budgeting, forecasting, and management decision-making.",
+        "Prepared and maintained financial reports in Excel, identifying trends and variances across budgets, expenses, and revenue.",
+        "Assisted with financial forecasting and budgeting by organizing historical data and developing projections.",
+        "Collaborated with cross-functional teams to collect, validate, and analyze financial information for internal reporting."
+      ]
+    },
+    sidequest: {
+      when: "May 2025 to August 2025",
+      title: "SideQuest",
+      sub: "Business Strategy Intern",
+      points: [
+        "Launched a social media app after identifying 3 market opportunities from competitor and user-feedback analysis, improving user retention by 15% over the alpha release.",
+        "Added a 'Share' function to the app through C++ and JavaScript after conducting user interviews.",
+        "Streamlined user onboarding with UX designers, reducing drop-off rates by 12%.",
+        "Developed a go-to-market strategy for a beta design, including pricing models and customer outreach plans."
+      ]
+    },
+    vitamin: {
+      when: "June 2025 to August 2025",
+      title: "The Vitamin Shoppe",
+      sub: "Sales Lead, Store Manager",
+      points: [
+        "Exceeded monthly sales goals by 10% and auto-delivery subscriptions by 14% through personalized customer engagement.",
+        "Trained peers on customer-focused pitch strategies built around personal connection.",
+        "Completed Manager on Duty (MOD) certification, overseeing store operations and staff supervision."
+      ]
+    },
+    liontrades: {
+      when: "June 2024 to August 2024",
+      title: "LionTrades, LLC.",
+      sub: "Software Engineering Intern",
+      points: [
+        "Implemented UI enhancements on the company website, including the front page design, using CSS, HTML, Python, and GitHub.",
+        "Performed stock research using fundamental and technical techniques, including earnings reports, income statements, balance sheets, Bollinger Bands, moving averages, and support/resistance analysis."
+      ]
+    },
+    education: {
+      when: "Expected December 2027",
+      title: "The Ohio State University",
+      sub: "B.S., Finance & Operations · GPA 3.6 / 4.0",
+      points: [
+        "Columbus, OH.",
+        "See School Projects below for coursework highlights."
+      ]
+    },
+    gymnastics: {
+      when: "January 2024 to present",
+      title: "OSU Men's Gymnastics",
+      sub: "Treasurer",
+      points: [
+        "Managed the team budget and financials for competitions and donations.",
+        "Competed in gymnastics tournaments and mentored teammates to improve group performance."
+      ]
+    },
+    ufa: {
+      when: "January 2024 to present",
+      title: "Undergraduate Finance Association",
+      sub: "Member",
+      points: [
+        "Presented a case study on trending stocks such as PLTR and COST, researching company fundamentals and technical market behavior.",
+        "Highlighted the disparity between market perceptions of a company and its underlying fundamentals."
+      ]
+    },
+    fgc: {
+      when: "Ongoing",
+      title: "Gaming & the FGC",
+      sub: "Building toward the games industry",
+      points: [
+        "[Add your story here: what draws you to fighting games, games you play, scenes or events you follow]",
+        "[Add any community, tournament, or industry involvement]"
+      ]
+    },
+    fighter: {
+      when: "2026",
+      title: "Simple Fighter",
+      sub: "Video game project · Godot",
+      points: [
+        "A 2D fighting game prototype built in Godot with two fighters, movement, jumping, a punch with real hit detection, health bars, and a win screen.",
+        "Exported to the web and hosted on itch.io so anyone can play it in the browser."
+      ],
+      link: {
+        url: "https://vikrao129.itch.io/fighting-games",
+        label: "Play it on itch.io"
+      }
+    },
+    profit: {
+      when: "Coursework",
+      title: "Profitability Analysis",
+      sub: "School project · Finance & Operations",
+      points: ["Profitability analysis built with pivot tables."]
+    },
+    forecast: {
+      when: "Coursework",
+      title: "Sales Forecasting",
+      sub: "School project · Finance & Operations",
+      points: ["Forecasted quarterly sales for a trading firm through regression analysis."]
+    },
+    capital: {
+      when: "Coursework",
+      title: "Capital Budgeting",
+      sub: "School project · Finance & Operations",
+      points: ["Prioritized capital projects on a budget using Solver."]
+    }
+  };
+
+  const panel = document.getElementById('panel');
+  const backdrop = document.getElementById('backdrop');
+  const titleEl = document.getElementById('panel-title');
+  const subEl = document.getElementById('panel-sub');
+  const whenEl = document.getElementById('panel-when');
+  const listEl = document.getElementById('panel-list');
+  const linkEl = document.getElementById('panel-link');
+  let activeBubble = null;
+
+  function openPanel(bubble) {
+    const d = data[bubble.dataset.id];
+    if (!d) return;
+    titleEl.textContent = d.title;
+    subEl.textContent = d.sub;
+    whenEl.textContent = d.when;
+    listEl.innerHTML = '';
+    d.points.forEach(p => {
+      const li = document.createElement('li');
+      if (p.startsWith('[')) li.className = 'placeholder';
+      li.textContent = p;
+      listEl.appendChild(li);
+    });
+    if (d.link) {
+      linkEl.href = d.link.url;
+      linkEl.textContent = d.link.label;
+      linkEl.style.display = 'inline-block';
+    } else {
+      linkEl.style.display = 'none';
+    }
+    panel.classList.add('open');
+    backdrop.classList.add('open');
+    if (activeBubble) activeBubble.classList.remove('active');
+    activeBubble = bubble;
+    bubble.classList.add('active');
+    document.getElementById('closeBtn').focus();
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    backdrop.classList.remove('open');
+    if (activeBubble) { activeBubble.classList.remove('active'); activeBubble.focus(); }
+    activeBubble = null;
+  }
+
+  document.querySelectorAll('.bubble').forEach(b => {
+    b.addEventListener('click', () => openPanel(b));
+  });
+
+  document.getElementById('closeBtn').addEventListener('click', closePanel);
+  backdrop.addEventListener('click', closePanel);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+</script>
+
+</body>
+</html>
